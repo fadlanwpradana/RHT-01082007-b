@@ -41,7 +41,7 @@ function App() {
 
     const playMusic = async () => {
       try {
-        audioRef.current.volume = 0.02; // 10% volume
+        audioRef.current.volume = 0.1; // 10% volume
         await audioRef.current.play();
       } catch (err) {
         console.log("Autoplay blocked");
