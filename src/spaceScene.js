@@ -3,6 +3,10 @@ export function initSpaceScene() {
   const cv = document.getElementById('c');
   const ctx = cv.getContext('2d');
   const cur = document.getElementById('cur');
+  const dustPhoto = document.getElementById('dust-photo');
+  const dustPhotos = dustPhoto
+    ? JSON.parse(dustPhoto.dataset.photos || '[]')
+    : [];
 
   // PASTE EVERYTHING FROM THE ORIGINAL <script>
   // STARTING FROM:
@@ -121,6 +125,9 @@ const BASE_R = 100;
 let starPts = [];
 let planetPts = [];
 let debrisPts = [];
+const PHOTO_SHUFFLE_MS = 10000;
+let lastPhotoShuffle = 0;
+let photoAreaMap = [0,1,2,3,4];
 
 function randShell(r0,r1){
 
@@ -228,6 +235,19 @@ function init(){
       });
     }
   }
+
+  shufflePhotoAreas();
+}
+
+function shufflePhotoAreas(){
+  photoAreaMap = [0,1,2,3,4];
+
+  for(let i=photoAreaMap.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [photoAreaMap[i],photoAreaMap[j]] = [photoAreaMap[j],photoAreaMap[i]];
+  }
+
+  lastPhotoShuffle = performance.now();
 }
 
 init();
@@ -256,6 +276,10 @@ let selfRot = 0;
 function draw(){
 
   frame++;
+
+  if(performance.now() - lastPhotoShuffle >= PHOTO_SHUFFLE_MS){
+    shufflePhotoAreas();
+  }
 
   zoom += (targetZoom-zoom)*0.07;
 
@@ -381,6 +405,8 @@ function draw(){
 
   allPts.sort((a,b)=>a.sz-b.sz);
 
+  let hoveredDust = null;
+
   for(const pt of allPts){
 
     const {type,sx,sy,sz,d} = pt;
@@ -436,6 +462,27 @@ function draw(){
 
     } else {
 
+      const normalizedAngle =
+        (d.angle % (Math.PI*2) + Math.PI*2) % (Math.PI*2);
+      const areaIndex = Math.min(
+        4,
+        Math.floor(normalizedAngle/(Math.PI*2/5))
+      );
+      const photoIndex = photoAreaMap[areaIndex];
+
+      if(
+        photoIndex < dustPhotos.length &&
+        dm < 26 &&
+        (!hoveredDust || dm < hoveredDust.distance)
+      ){
+        hoveredDust = {
+          x:wx,
+          y:wy,
+          distance:dm,
+          photoIndex
+        };
+      }
+
       const maxD = 7.5*BASE_R;
 
       const depth =
@@ -446,8 +493,6 @@ function draw(){
 
       const glow =
         Math.max(0,1-dm/85)*1.7;
-
-      const t = d.colorT;
 
       const rv = 255;
       const gv = 255;
@@ -470,6 +515,22 @@ function draw(){
         `rgba(${rv},${gv},${bv},${Math.min(1,d.a*bright+glow*.28)})`;
 
       ctx.fill();
+    }
+  }
+
+  if(dustPhoto){
+    if(hoveredDust){
+      const xOffset = hoveredDust.x > W - 90 ? -82 : 18;
+      const yOffset = hoveredDust.y > H - 90 ? -82 : -18;
+
+      dustPhoto.style.transform =
+        `translate(${hoveredDust.x + xOffset}px, ${hoveredDust.y + yOffset}px)`;
+      if(dustPhotos.length){
+        dustPhoto.src = dustPhotos[hoveredDust.photoIndex];
+      }
+      dustPhoto.classList.add('is-visible');
+    } else {
+      dustPhoto.classList.remove('is-visible');
     }
   }
 

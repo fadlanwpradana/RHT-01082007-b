@@ -95,6 +95,25 @@ canvas {
   border-radius: 50%;
 }
 
+#dust-photo {
+  position: fixed;
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border: 1px solid rgba(180, 225, 255, 0.9);
+  border-radius: 50%;
+  box-shadow: 0 0 14px rgba(45, 130, 255, 0.75);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-100px, -100px);
+  transition: opacity 0.15s ease;
+  z-index: 8;
+}
+
+#dust-photo.is-visible {
+  opacity: 1;
+}
+
 #lbl {
   position: absolute;
   bottom: 22px;

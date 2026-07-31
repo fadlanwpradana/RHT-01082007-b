@@ -28,6 +28,13 @@ import { useEffect, useRef } from "react";
 import "./App.css";
 import { initSpaceScene } from "./spaceScene";
 import bgMusic from "../src/assets/omy.mp3";
+import dustPhoto1 from "./assets/rht1.jpg";
+import dustPhoto2 from "./assets/rht2.jpg";
+import dustPhoto3 from "./assets/rht3.jpg";
+import dustPhoto4 from "./assets/rht4.jpg";
+import dustPhoto5 from "./assets/rht5.jpeg";
+
+const dustPhotos = [dustPhoto1, dustPhoto2, dustPhoto3, dustPhoto4, dustPhoto5];
 
 function App() {
   const audioRef = useRef(null);
@@ -64,6 +71,13 @@ function App() {
       <canvas id="c"></canvas>
 
       <div id="cur"></div>
+      <img
+        id="dust-photo"
+        src={dustPhoto1}
+        data-photos={JSON.stringify(dustPhotos)}
+        alt=""
+        aria-hidden="true"
+      />
 
       <div id="ttl">Radiometric Infrared Flux Field Astrometry</div>
       <div id="ttl2">
