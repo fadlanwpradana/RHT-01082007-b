@@ -24,14 +24,10 @@
 
 // export default App;
 
-
-
-
-
 import { useEffect, useRef } from "react";
 import "./App.css";
 import { initSpaceScene } from "./spaceScene";
-import bgMusic from "../src/assets/jl.mp3";
+import bgMusic from "../src/assets/omy.mp3";
 
 function App() {
   const audioRef = useRef(null);
@@ -60,23 +56,22 @@ function App() {
 
   return (
     <div id="wrap">
-
       {/* Background Music */}
       <audio ref={audioRef} loop hidden>
         <source src={bgMusic} type="audio/mp3" />
       </audio>
-      
+
       <canvas id="c"></canvas>
 
       <div id="cur"></div>
 
-      <div id="ttl">
-        Astronomical Radiometric Mapping of Extrasolar Yields
+      <div id="ttl">Radiometric Infrared Flux Field Astrometry</div>
+      <div id="ttl2">
+        "Some people look at the stars and see galaxies. I look at them and see
+        you."
       </div>
 
-      <div id="lbl">
-        Armey J1701.27
-      </div>
+      <div id="lbl">RHT-01082007 b</div>
 
       <div id="zoom">
         <button id="zin">+</button>

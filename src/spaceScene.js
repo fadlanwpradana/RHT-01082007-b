@@ -270,7 +270,7 @@ function draw(){
 
   ctx.clearRect(0,0,W,H);
 
-  ctx.fillStyle = '#00000e';
+  ctx.fillStyle = '#000000';
   ctx.fillRect(0,0,W,H);
 
   ctx.save();
@@ -408,13 +408,13 @@ function draw(){
         Math.max(0,1-dm/105)*1.5;
 
       const rv =
-        Math.round(120 + t * 110);
+        Math.round(45 + t * 45);
 
       const gv =
-        Math.round(170 + t * 55);
+        Math.round(135 + t * 70);
 
       const bv =
-        255;
+        Math.round(225 + t * 30);
 
       ctx.beginPath();
 
@@ -449,14 +449,9 @@ function draw(){
 
       const t = d.colorT;
 
-      const rv =
-        Math.round(135+t*110);
-
-      const gv =
-        Math.round(82+t*65);
-
-      const bv =
-        Math.round(205+t*50);
+      const rv = 255;
+      const gv = 255;
+      const bv = 255;
 
       ctx.beginPath();
 
@@ -483,8 +478,8 @@ function draw(){
     0,0,BASE_R*1.6
   );
 
-  ag.addColorStop(0,'rgba(100,60,220,.1)');
-  ag.addColorStop(.6,'rgba(65,45,180,.05)');
+  ag.addColorStop(0,'rgba(45,130,255,.12)');
+  ag.addColorStop(.6,'rgba(25,80,210,.06)');
   ag.addColorStop(1,'rgba(0,0,0,0)');
 
   ctx.beginPath();
